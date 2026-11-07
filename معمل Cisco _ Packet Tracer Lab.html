@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>معمل Cisco | Packet Tracer Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#12233a;--mute:#5b6b82;--line:#d8e1ee;--acc:#0a7fd4;--acc2:#e88a00;--ok:#12805c;--bad:#c93a3a;--term:#0b1626;--termink:#9ff3c8;--glow:rgba(10,127,212,.12);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#08111f;--card:#0f1d33;--ink:#e6eefb;--mute:#8da2c0;--line:#1f3454;--acc:#38b6ff;--acc2:#ffb347;--ok:#3ddc97;--bad:#ff6b6b;--term:#050b14;--termink:#9ff3c8;--glow:rgba(56,182,255,.14)}}
+:root[data-theme="dark"]{--bg:#08111f;--card:#0f1d33;--ink:#e6eefb;--mute:#8da2c0;--line:#1f3454;--acc:#38b6ff;--acc2:#ffb347;--ok:#3ddc97;--bad:#ff6b6b;--term:#050b14;--termink:#9ff3c8;--glow:rgba(56,182,255,.14)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Cairo',Tahoma,Arial,sans-serif;line-height:1.8;
+background-image:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0);background-size:26px 26px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:8px 14px;overflow-x:auto}
+.logo{font-weight:800;color:var(--acc);white-space:nowrap;font-size:1.1rem}
+nav{display:flex;gap:6px;margin-inline-start:auto}
+nav button,.btn{font-family:inherit;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:7px 14px;border-radius:999px;cursor:pointer;font-weight:600;white-space:nowrap;font-size:.95rem}
+nav button.on,.btn.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+main{max-width:860px;margin:0 auto;padding:18px 14px 60px}
+.hero{background:linear-gradient(135deg,var(--card),var(--glow));border:1px solid var(--line);border-radius:22px;padding:22px;margin-bottom:18px}
+.hero h1{margin:0 0 6px;font-size:1.7rem;font-weight:800}
+.hero p{margin:0 0 10px;color:var(--mute)}
+.topo{width:100%;height:auto;display:block}
+.topo .n{fill:var(--card);stroke:var(--acc);stroke-width:2}
+.topo .r{stroke:var(--acc2)}
+.topo text{fill:var(--ink);font-size:13px;font-weight:700;text-anchor:middle;font-family:'JetBrains Mono',monospace}
+.topo .l{stroke:var(--acc);stroke-width:2;stroke-dasharray:6 6;animation:fl 1.2s linear infinite}
+@keyframes fl{to{stroke-dashoffset:-12}}
+@media (prefers-reduced-motion:reduce){.topo .l{animation:none}}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:12px}
+details.card summary{cursor:pointer;font-weight:800;font-size:1.05rem;list-style:none}
+details.card summary::before{content:"◂ ";color:var(--acc2)}
+details[open].card summary::before{content:"▾ "}
+details.card p{color:var(--mute);margin:8px 0}
+pre,.mono{direction:ltr;text-align:left;font-family:'JetBrains Mono',monospace}
+pre{background:var(--term);color:var(--termink);padding:12px;border-radius:12px;overflow-x:auto;font-size:.85rem;line-height:1.6;margin:8px 0}
+h2{margin:6px 0 10px;font-size:1.3rem}
+.term{background:var(--term);border-radius:14px;padding:12px;direction:ltr;text-align:left;font-family:'JetBrains Mono',monospace;font-size:.88rem;min-height:170px;max-height:300px;overflow-y:auto;color:var(--termink)}
+.term .e{color:#ff8a8a}.term .d{color:#8da2c0}
+.cmdrow{display:flex;gap:6px;direction:ltr;margin-top:8px}
+.cmdrow span{align-self:center;color:var(--acc);font-family:'JetBrains Mono',monospace;font-size:.85rem;white-space:nowrap}
+input[type=text]{flex:1;min-width:0;font-family:'JetBrains Mono',monospace;font-size:1rem;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.name{font-family:'Cairo',sans-serif!important;width:100%;margin-bottom:12px}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin:8px 0 12px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0;transition:width .3s}
+.task{background:var(--glow);border-inline-start:4px solid var(--acc2);padding:10px 12px;border-radius:10px;margin-bottom:8px}
+.q b{display:block;margin-bottom:6px}
+.q label{display:block;padding:7px 10px;border:1px solid var(--line);border-radius:10px;margin:5px 0;cursor:pointer}
+.q label:has(input:checked){border-color:var(--acc);background:var(--glow)}
+.q.right{border-color:var(--ok)}.q.wrong{border-color:var(--bad)}
+.fb{font-size:.9rem;margin-top:6px}.ok{color:var(--ok)}.bad{color:var(--bad)}
+.score{font-size:2.2rem;font-weight:800;color:var(--acc2)}
+table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid var(--line);text-align:right}
+.scroll{overflow-x:auto}
+.note{font-size:.88rem;color:var(--mute)}
+.tk{margin:4px 0;font-size:.92rem}.tk code,p code{direction:ltr;display:inline-block;font-family:'JetBrains Mono',monospace;background:var(--glow);color:var(--acc);padding:0 6px;border-radius:6px;font-weight:600}
+details.card p{color:var(--ink)}
+.credit{text-align:center;margin-top:26px;padding:18px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,var(--card),var(--glow));direction:ltr;font-family:'Cairo',sans-serif;color:var(--mute)}
+.credit b{display:block;font-size:1.35rem;color:var(--acc);letter-spacing:.5px}
+.hero{position:relative;overflow:hidden}.hero::after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,var(--acc) 0,transparent 70%);opacity:.12;top:-80px;inset-inline-end:-60px;pointer-events:none}
+#lang{font-weight:800}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">⚡ NetLab</div>
+  <nav id="nav">
+    <button data-en="Home" data-t="home" class="on">الرئيسية</button>
+    <button data-en="Switch" data-t="switch">السويتش</button>
+    <button data-en="Video &amp; Images" data-t="media">فيديو وصور</button>
+    <button data-t="router">الراوتر</button>
+    <button data-t="exam">الامتحان</button>
+    <button data-en="Teacher dashboard" data-t="teacher" id="tbtn" hidden>لوحة المستر</button>
+  </nav>
+  <button class="btn" id="lang" aria-label="Language">EN</button>
+</header>
+<main>
+
+<section id="home" class="on">
+  <div class="hero">
+    <h1 data-en="Learn Cisco Networking, Step by Step">تعلّم إعداد شبكات Cisco خطوة بخطوة</h1>
+    <p data-en="VLANs, Trunking, Router-on-a-Stick, DHCP and Static Routing: learn, practice commands in a live simulator, then take the exam and send your result to your teacher.">VLANs و Trunk و Router-on-a-Stick و DHCP و Static Routing: اتعلم، جرّب الأوامر بنفسك، وبعدين امتحن وابعت نتيجتك للمستر.</p>
+    <svg class="topo" viewBox="0 0 600 150" role="img" aria-label="رسم يوضح سويتش وروترين وسويتش">
+      <line class="l" x1="70" y1="75" x2="170" y2="75"/><line class="l" x1="230" y1="75" x2="370" y2="75"/><line class="l" x1="430" y1="75" x2="530" y2="75"/>
+      <rect class="n" x="20" y="50" width="60" height="50" rx="10"/><text x="50" y="80">S1</text>
+      <rect class="n r" x="170" y="45" width="60" height="60" rx="30"/><text x="200" y="80">R1</text>
+      <rect class="n r" x="370" y="45" width="60" height="60" rx="30"/><text x="400" y="80">R2</text>
+      <rect class="n" x="520" y="50" width="60" height="50" rx="10"/><text x="550" y="80">S2</text>
+      <text x="120" y="62">trunk</text><text x="300" y="62">192.168.1.0/24</text><text x="480" y="62">trunk</text>
+      <text x="50" y="125">VLAN 10 / 20</text><text x="550" y="125">VLAN 30 / 40</text>
+    <circle r="7" fill="var(--acc2)"><animateMotion dur="4s" repeatCount="indefinite" path="M50,75 L200,75 L400,75 L550,75"/></circle><circle r="12" fill="none" stroke="var(--acc2)" stroke-width="2" opacity=".5"><animateMotion dur="4s" repeatCount="indefinite" path="M50,75 L200,75 L400,75 L550,75"/></circle>
+    </svg>
+  </div>
+  <div class="card" data-en="<b>Course path:</b> 1) Switch: every command explained + hands-on lab &rarr; 2) Router: now open &rarr; 3) 25-question exam sent to your teacher."><b>مراحل المنهج:</b> 1) السويتش: شرح كل أمر وتطبيق عملي ← 2) الراوتر (مفتوح دلوقتي) ← 3) امتحان 25 سؤال بيتبعت للمستر.</div>
+</section>
+
+<section id="switch">
+  <h2 data-en="🔌 Stage 1: The Switch">🔌 المرحلة 1: السويتش</h2>
+  <div class="card"><b>شكل السويتش من قدّام (الألوان = الـ VLAN):</b><div id="panel"></div>
+  <p class="note">🟦 fa0/1 إلى fa0/5 = VLAN 10 (hr) &nbsp; 🟧 fa0/6 إلى fa0/10 = VLAN 20 (it) &nbsp; 🟩 g0/1 = Trunk ناحية الروتر</p></div>
+  <div id="swles"></div>
+  <h2 data-en="🧪 Hands-on: configure Switch 1 (s1)">🧪 تطبيق عملي: السويتش الأول (s1)</h2>
+  <div id="swlab"></div>
+  <h2 data-en="🧪 Hands-on: configure Switch 2 (s2)">🧪 تطبيق عملي: السويتش التاني (s2)</h2>
+  <div id="swlab2"></div>
+</section>
+
+<section id="media">
+  <h2 data-en="🎬 Video: build the full switch step by step">🎬 فيديو: إعداد السويتش كامل خطوة بخطوة</h2>
+  <div class="card"><div id="vdia"></div><div class="task" id="vcap"></div><div class="term" id="vterm" aria-live="polite"></div><div class="bar"><i id="vbar"></i></div>
+  <p style="margin:0"><button class="btn" id="vprev" aria-label="prev">⏮</button> <button class="btn pri" id="vplay" aria-label="play">▶</button> <button class="btn" id="vnext" aria-label="next">⏭</button></p></div>
+  <h2 data-en="🖼️ Packet Tracer style images">🖼️ صور بشكل Packet Tracer</h2>
+  <div class="card"><b data-en="Image 1: the switch with VLAN 10, VLAN 20 and the trunk to the router">صورة 1: السويتش بعد الإعداد (VLAN 10 وVLAN 20 والـ trunk للروتر)</b><div id="img1"></div></div>
+  <div class="card"><b data-en="Image 2: the full network S1, R1, R2, S2">صورة 2: الشبكة كاملة S1 وR1 وR2 وS2</b><div id="img2"></div></div>
+</section>
+
+<section id="router">
+  <div class="card" id="rlock"><b>🔒 المرحلة دي مقفولة.</b> خلّص تطبيق السويتش لحد ما تحفظ بالأمر wr وهيتفتح الراوتر.</div>
+  <div id="rbody" hidden>
+    <h2 data-en="🛰️ Stage 2: The Router">🛰️ المرحلة 2: الراوتر</h2>
+    <div id="rtles"></div>
+    <h2 data-en="🧪 Hands-on: configure Router 1 (r1)">🧪 تطبيق عملي: الروتر الأول (r1)</h2>
+    <div id="rtlab"></div>
+    <h2 data-en="🧪 Hands-on: configure Router 2 (r2)">🧪 تطبيق عملي: الروتر التاني (r2)</h2>
+    <div id="rtlab2"></div>
+  </div>
+</section>
+
+<section id="exam">
+  <h2 data-en="Exams">الامتحانات</h2>
+  <p id="exsel"><button class="btn pri" data-x="prac" data-en="Practical (25)">عملي (25 سؤال)</button> <button class="btn" data-x="sw" data-en="Theory: Switch (15)">نظري: السويتش (15)</button> <button class="btn" data-x="rt" data-en="Theory: Router (15)">نظري: الروتر (15)</button></p>
+  <div class="card" id="xlock" hidden><p id="dprog" class="note" style="margin:0 0 6px"></p><b>🔒 الامتحان العملي مقفول.</b> لازم تخلّص التطبيقات الأربعة (s1 وs2 وr1 وr2). الامتحانات النظرية مفتوحة دلوقتي.</div>
+  <div class="card" id="exbody">
+    <input type="text" class="name" id="sname" data-en="Your full name" placeholder="اكتب اسمك بالكامل" maxlength="60" aria-label="الاسم">
+    <div id="qs"></div>
+    <button class="btn pri" id="submit" data-en="Submit to teacher">تسليم للمستر</button>
+    <div id="res" class="fb"></div>
+  </div>
+</section>
+
+<section id="teacher">
+  <h2 data-en="Teacher dashboard: student submissions">لوحة المستر: تسليمات الطلاب</h2>
+  <div class="card scroll"><table><thead><tr><th>الاسم</th><th>عملي</th><th>نظري سويتش</th><th>نظري روتر</th><th>الوقت</th></tr></thead><tbody id="rows"></tbody></table><p class="note" id="tnote">لا توجد تسليمات بعد.</p></div>
+</section>
+
+<footer class="credit"><div>Created by</div><b>Mohamed Hossam Waheed</b></footer>
+</main>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};
+function norm(s){return String(s).trim().toLowerCase().replace(/\s+/g,' ')}
+/* tabs */
+function show(t){document.querySelectorAll('section').forEach(function(s){s.classList.toggle('on',s.id===t)});
+document.querySelectorAll('#nav button').forEach(function(b){b.classList.toggle('on',b.dataset.t===t)});window.scrollTo(0,0)}
+$('#nav').addEventListener('click',function(e){var b=e.target.closest('button');if(b)show(b.dataset.t)});
+
+var lang='ar';function tr(a,e){return lang==='ar'?a:e}
+var I18=document.querySelectorAll('[data-en]');
+I18.forEach(function(e){e.dataset.ar=e.tagName==='INPUT'?e.placeholder:e.innerHTML});
+function setLang(l){lang=l;document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';
+  I18.forEach(function(e){var v=l==='ar'?e.dataset.ar:e.dataset.en;if(e.tagName==='INPUT')e.placeholder=v;else e.innerHTML=v});
+  $('#lang').textContent=l==='ar'?'EN':'عربي';refresh()}
+$('#lang').addEventListener('click',function(){setLang(lang==='ar'?'en':'ar')});
+if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches){document.querySelectorAll('animateMotion').forEach(function(a){a.parentNode.remove()})}
+/* progress */
+var P={sw:false,rt:false};
+try{P.sw=localStorage.getItem('nl_sw')==='1';P.rt=localStorage.getItem('nl_rt')==='1'}catch(e){}
+function saveP(){try{localStorage.setItem('nl_sw',P.sw?'1':'0');localStorage.setItem('nl_rt',P.rt?'1':'0')}catch(e){}}
+function refresh(){
+  var st=document.getElementById('dprog');if(st)st.textContent='الإنجاز: s1 '+(D.s1?'✅':'⬜')+' · s2 '+(D.s2?'✅':'⬜')+' · r1 '+(D.r1?'✅':'⬜')+' · r2 '+(D.r2?'✅':'⬜');
+  var ex=P.sw&&P.rt;
+  $('#rlock').hidden=true;$('#rbody').hidden=false;
+  exView();
+  document.querySelector('[data-t=router]').textContent=tr('الراوتر','Router');
+  document.querySelector('[data-t=exam]').textContent=tr('الامتحانات','Exams');
+}
+function ab(s){return norm(s).replace(/ ?- ?/g,'-').replace(/^int /,'interface ').replace(/^sw /,'switchport ').replace(/^no shut$/,'no shutdown').replace(/^conf(igure)? t(erminal)?$/,'conf t').replace(/^en$/,'enable').replace(/^(write|write memory)$/,'wr').replace(/gigabitethernet ?/,'g').replace(/fastethernet ?/,'fa').replace(/serial ?/,'s')}
+
+/* lessons */
+function lessons(root,L){
+  L.forEach(function(x,n){
+    var d=document.createElement('details');d.className='card';if(n===0)d.open=true;
+    var s=document.createElement('summary');s.textContent=x.t;d.appendChild(s);
+    var p=document.createElement('p');p.innerHTML=x.p;d.appendChild(p);
+    x.c.forEach(function(c){
+      var pre=document.createElement('pre');pre.textContent=c[0];d.appendChild(pre);
+      c[1].forEach(function(k){var t=document.createElement('div');t.className='tk';var cd=document.createElement('code');cd.textContent=k[0];t.appendChild(cd);t.appendChild(document.createTextNode(' ← '+k[1]));d.appendChild(t)});
+    });
+    root.appendChild(d);
+  });
+}
+var SL=[
+{t:'1) إيه هو السويتش وأوضاعه',p:'السويتش بيوصّل الأجهزة ببعض جوّه الشبكة. بتتعامل معاه من خلال <b>أوضاع</b>، وكل وضع له علامة في آخر السطر (الـ prompt):<br><code>Switch&gt;</code> وضع المستخدم (صلاحيات قليلة)<br><code>Switch#</code> وضع الـ privileged (كل الصلاحيات)<br><code>Switch(config)#</code> الإعدادات العامة<br><code>(config-if)#</code> إعدادات إنترفيس، و<code>(config-vlan)#</code> إعدادات VLAN.',c:[
+['enable',[['enable','يرفعك من > إلى #']]],
+['conf t',[['conf t','اختصار configure terminal: يدخّلك الإعدادات العامة']]],
+['hostname s1',[['hostname','أمر تغيير اسم الجهاز'],['s1','الاسم الجديد']]],
+['enable secret 987',[['enable secret','باسورد مشفّر للدخول لوضع #'],['987','الباسورد']]]]},
+{t:'2) الإنترفيس (Interface = البورت)',p:'الإنترفيس هو البورت الفيزيائي اللي بتوصّل فيه الكابل. اسمه بيتكوّن من <b>نوع + رقم الموديول / رقم البورت</b>. fa هو FastEthernet سرعة 100Mbps، و g هو GigabitEthernet سرعة 1Gbps.',c:[
+['interface range fa0/1-5',[['interface range','اختار أكتر من بورت مرة واحدة'],['fa','نوع البورت FastEthernet'],['0/1-5','الموديول 0 والبورتات من 1 لـ 5']]],
+['interface g0/1',[['interface','ادخل إعدادات بورت واحد'],['g0/1','GigabitEthernet موديول 0 بورت 1']]],
+['no shutdown',[['shutdown','إطفاء البورت'],['no','بتلغي الأمر، يعني شغّل البورت']]]]},
+{t:'3) الـ VLANs',p:'الـ VLAN بتقسم السويتش الواحد لشبكات منطقية منفصلة (مثلاً قسم الموارد hr وقسم الـ it) فالأجهزة في VLAN مش بتشوف اللي في VLAN تانية.',c:[
+['vlan 10',[['vlan','أمر إنشاء VLAN'],['10','رقم الـ VLAN']]],
+['name hr',[['name','تسمية الـ VLAN'],['hr','الاسم']]],
+['exit',[['exit','خطوة واحدة لورا، من (config-vlan) إلى (config)']]]]},
+{t:'4) Switchport mode access',p:'وضع <b>access</b> معناه إن البورت متوصّل بجهاز طرفي (كمبيوتر أو طابعة) وبيخدم VLAN واحدة بس. بعدها بتحدد البورت ده تابع لأنهي VLAN.',c:[
+['switchport mode access',[['switchport','إعدادات الطبقة 2 الخاصة بالبورت'],['mode access','البورت للأجهزة الطرفية وVLAN واحدة']]],
+['switchport access vlan 10',[['access vlan 10','ضم البورت إلى VLAN رقم 10']]]]},
+{t:'5) Trunk: البورت اللي ناحية الروتر',p:'الـ <b>trunk</b> بيمرّر أكتر من VLAN على نفس الكابل، فهو اللي بنستخدمه بين السويتش والروتر.',c:[
+['interface g0/1',[['g0/1','البورت اللي واصل للروتر']]],
+['switchport mode trunk',[['mode trunk','البورت يعدّي كل الـ VLANs']]]]},
+{t:'6) الحفظ',p:'من غير حفظ، كل الإعدادات بتضيع لما السويتش يتعمله restart. لما تخلّص اخرج للوضع # واحفظ.',c:[
+['end',[['end','ارجع للوضع # مباشرة من أي مستوى']]],
+['wr',[['wr','اختصار write memory: يحفظ في startup-config']]]]}];
+var RL=[
+{t:'1) ليه محتاجين راوتر؟',p:'الـ VLANs معزولة عن بعض. عشان أجهزة VLAN 10 تكلّم VLAN 20 محتاجين روتر. وبنستخدم تقنية <b>Router-on-a-Stick</b>: كابل واحد (trunk) بين السويتش والروتر، والروتر بيقسم الإنترفيس لـ sub-interfaces.',c:[
+['hostname r1',[['r1','اسم الروتر']]],
+['enable secret 987',[['enable secret','باسورد الدخول لوضع #']]]]},
+{t:'2) الـ Sub-interfaces',p:'كل VLAN بتاخد sub-interface خاصة بيها، وعنوانها هو الـ <b>Gateway</b> لأجهزة الـ VLAN دي.',c:[
+['interface g0/1.10',[['g0/1','الإنترفيس الفيزيائي'],['.10','رقم الـ sub-interface (بنخليه زي رقم الـ VLAN)']]],
+['encapsulation dot1Q 10',[['dot1Q','بروتوكول وسم الـ VLAN'],['10','رقم الـ VLAN']]],
+['ip address 10.10.1.1 255.255.255.0',[['10.10.1.1','عنوان الـ gateway'],['255.255.255.0','الـ subnet mask']]],
+['no shutdown',[['no shutdown','على g0/1 الأساسي: من غيره الـ sub-interfaces مش هتشتغل']]]]},
+{t:'3) DHCP: توزيع العناوين أوتوماتيك',p:'بتعمل pool لكل شبكة، وبتستبعد العناوين المحجوزة (زي الـ gateway) بالأمر excluded-address.',c:[
+['ip dhcp pool hr',[['pool hr','مجموعة عناوين اسمها hr']]],
+['network 10.10.1.0 255.255.255.0',[['network','الشبكة اللي هتتوزع منها العناوين']]],
+['default-router 10.10.1.1',[['default-router','الـ gateway اللي هيتوزع للأجهزة']]],
+['dns-server 8.8.8.8',[['dns-server','عنوان الـ DNS']]],
+['ip dhcp excluded-address 10.10.1.1 10.10.1.10',[['10.10.1.1 10.10.1.10','المدى اللي هيتم استبعاده من التوزيع']]]]},
+{t:'4) الوصلة مع الروتر التاني والـ Static Route',p:'الروتر ما يعرفش الشبكات البعيدة إلا لو عرّفته بيها. بنكتب الشبكة والـ mask والـ next hop (عنوان الروتر اللي هنعدّي منه).',c:[
+['interface s0/0/0',[['s0/0/0','Serial: وصلة بين الروترين']]],
+['ip address 192.168.1.1 255.255.255.0',[['192.168.1.1','عنوان طرفنا من الوصلة']]],
+['ip route 10.10.3.0 255.255.255.0 192.168.1.2',[['10.10.3.0 255.255.255.0','الشبكة البعيدة'],['192.168.1.2','الـ next hop']]],
+['wr',[['wr','حفظ الإعدادات']]]]},
+{t:'5) clock rate (مهم في Packet Tracer)',p:'في وصلة الـ serial بين الروترين، طرف واحد بيكون <b>DCE</b> (عليه أيقونة ساعة في الكابل). الروتر ده لازم يتحدد له سرعة الساعة، وإلا الرابط يفضل واقع حتى بعد no shutdown. الأمر ده مش مكتوب في ورقتك، لكن هتحتاجه لو الرابط فضل أحمر.',c:[['clock rate 64000',[['clock rate','أمر ضبط سرعة الساعة على طرف DCE'],['64000','السرعة بالـ bps']]]]}];
+
+/* lab engine */
+function lab(root,S,onDone,doneMsg){
+  root.innerHTML='<div class="card"><div class="task"></div><div class="bar"><i></i></div><div class="term" aria-live="polite"></div><div class="cmdrow"><span></span><input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="اكتب الأمر"><button class="btn pri">تنفيذ</button></div><p style="margin:10px 0 0"><button class="btn h">تلميح</button> <button class="btn r">من الأول</button></p></div>';
+  var q=function(s){return root.querySelector(s)};
+  var task=q('.task'),bar=q('.bar i'),term=q('.term'),prm=q('.cmdrow span'),inp=q('input'),go=q('.pri'),hb=q('.h'),i=0,fired=false;
+  function line(t,c){var d=document.createElement('div');if(c)d.className=c;d.textContent=t;term.appendChild(d);term.scrollTop=term.scrollHeight}
+  function draw(){
+    var done=i>=S.length;bar.style.width=(i/S.length*100)+'%';inp.disabled=go.disabled=hb.disabled=done;
+    if(done){task.textContent=doneMsg;prm.textContent='';return}
+    task.textContent='الخطوة '+(i+1)+' من '+S.length+': '+S[i][1];prm.textContent=S[i][0];
+  }
+  function run(){
+    if(i>=S.length)return;var v=inp.value;if(!norm(v))return;
+    line(S[i][0]+v.trim());
+    if(ab(v)===ab(S[i][2])){i++;inp.value='';if(i>=S.length){line('Building configuration...','d');line('[OK]','d');if(!fired){fired=true;onDone()}}}
+    else line('% Invalid input: جرّب تاني أو اضغط تلميح','e');
+    draw();inp.focus();
+  }
+  go.addEventListener('click',run);
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')run()});
+  hb.addEventListener('click',function(){if(i<S.length)line('تلميح: '+S[i][2],'d')});
+  q('.r').addEventListener('click',function(){i=0;term.textContent='';inp.value='';draw()});
+  draw();
+}
+var SS=[
+['Switch>','ادخل وضع الـ privileged','enable'],['Switch#','ادخل وضع الإعدادات','conf t'],['Switch(config)#','سمّي السويتش s1','hostname s1'],['s1(config)#','اعمل باسورد 987','enable secret 987'],
+['s1(config)#','اعمل VLAN رقم 10','vlan 10'],['s1(config-vlan)#','سمّيها hr','name hr'],['s1(config-vlan)#','اخرج من الـ VLAN','exit'],
+['s1(config)#','اختار البورتات fa0/1 لحد 5','interface range fa0/1-5'],['s1(config-if-range)#','شغّل البورتات','no shutdown'],['s1(config-if-range)#','خليها access','switchport mode access'],['s1(config-if-range)#','حطها على VLAN 10','switchport access vlan 10'],['s1(config-if-range)#','اخرج','exit'],
+['s1(config)#','اعمل VLAN رقم 20','vlan 20'],['s1(config-vlan)#','سمّيها it','name it'],['s1(config-vlan)#','اخرج','exit'],
+['s1(config)#','اختار البورتات fa0/6 لحد 10','interface range fa0/6-10'],['s1(config-if-range)#','شغّل البورتات','no shutdown'],['s1(config-if-range)#','خليها access','switchport mode access'],['s1(config-if-range)#','حطها على VLAN 20','switchport access vlan 20'],['s1(config-if-range)#','اخرج','exit'],
+['s1(config)#','اختار البورت g0/1 (ناحية الروتر)','interface g0/1'],['s1(config-if)#','شغّله','no shutdown'],['s1(config-if)#','خليه trunk','switchport mode trunk'],['s1(config-if)#','اخرج للـ privileged مباشرة','end'],['s1#','احفظ الإعدادات','wr']];
+var RS=[
+['Router>','ادخل وضع الـ privileged','enable'],['Router#','ادخل وضع الإعدادات','conf t'],['Router(config)#','سمّي الروتر r1','hostname r1'],['r1(config)#','اعمل باسورد 987','enable secret 987'],
+['r1(config)#','sub-interface لـ VLAN 10','interface g0/1.10'],['r1(config-subif)#','فعّل dot1Q للـ VLAN 10','encapsulation dot1Q 10'],['r1(config-subif)#','الـ gateway لـ VLAN 10','ip address 10.10.1.1 255.255.255.0'],['r1(config-subif)#','اخرج','exit'],
+['r1(config)#','sub-interface لـ VLAN 20','interface g0/1.20'],['r1(config-subif)#','فعّل dot1Q للـ VLAN 20','encapsulation dot1Q 20'],['r1(config-subif)#','الـ gateway لـ VLAN 20','ip address 10.10.2.1 255.255.255.0'],['r1(config-subif)#','اخرج','exit'],
+['r1(config)#','ادخل الإنترفيس الأساسي','interface g0/1'],['r1(config-if)#','شغّله','no shutdown'],['r1(config-if)#','اخرج','exit'],
+['r1(config)#','pool اسمه hr','ip dhcp pool hr'],['r1(dhcp-config)#','الشبكة','network 10.10.1.0 255.255.255.0'],['r1(dhcp-config)#','الـ gateway','default-router 10.10.1.1'],['r1(dhcp-config)#','الـ DNS','dns-server 8.8.8.8'],['r1(dhcp-config)#','اخرج','exit'],
+['r1(config)#','استبعد من 10.10.1.1 لـ 10.10.1.10','ip dhcp excluded-address 10.10.1.1 10.10.1.10'],
+['r1(config)#','pool اسمه it','ip dhcp pool it'],['r1(dhcp-config)#','الشبكة','network 10.10.2.0 255.255.255.0'],['r1(dhcp-config)#','الـ gateway','default-router 10.10.2.1'],['r1(dhcp-config)#','الـ DNS','dns-server 8.8.8.8'],['r1(dhcp-config)#','اخرج','exit'],
+['r1(config)#','استبعد من 10.10.2.1 لـ 10.10.2.30','ip dhcp excluded-address 10.10.2.1 10.10.2.30'],
+['r1(config)#','ادخل الـ Serial','interface s0/0/0'],['r1(config-if)#','شغّله','no shutdown'],['r1(config-if)#','حط الـ IP','ip address 192.168.1.1 255.255.255.0'],['r1(config-if)#','اخرج','exit'],
+['r1(config)#','route للشبكة 10.10.3.0','ip route 10.10.3.0 255.255.255.0 192.168.1.2'],['r1(config)#','route للشبكة 10.10.4.0','ip route 10.10.4.0 255.255.255.0 192.168.1.2'],['r1(config)#','ارجع للـ privileged','end'],['r1#','احفظ','wr']];
+
+var SS2=[
+['Switch>','ادخل وضع الـ privileged','enable'],['Switch#','ادخل وضع الإعدادات','conf t'],['Switch(config)#','سمّي السويتش s2','hostname s2'],['s2(config)#','اعمل باسورد 987','enable secret 987'],
+['s2(config)#','اعمل VLAN رقم 30','vlan 30'],['s2(config-vlan)#','سمّيها cs','name cs'],['s2(config-vlan)#','اخرج','exit'],
+['s2(config)#','اختار fa0/1 لحد 5','interface range fa0/1-5'],['s2(config-if-range)#','شغّل البورتات','no shutdown'],['s2(config-if-range)#','خليها access','switchport mode access'],['s2(config-if-range)#','حطها على VLAN 30','switchport access vlan 30'],['s2(config-if-range)#','اخرج','exit'],
+['s2(config)#','اعمل VLAN رقم 40','vlan 40'],['s2(config-vlan)#','سمّيها Sales','name Sales'],['s2(config-vlan)#','اخرج','exit'],
+['s2(config)#','اختار fa0/6 لحد 10','interface range fa0/6-10'],['s2(config-if-range)#','شغّل البورتات','no shutdown'],['s2(config-if-range)#','خليها access','switchport mode access'],['s2(config-if-range)#','حطها على VLAN 40','switchport access vlan 40'],['s2(config-if-range)#','اخرج','exit'],
+['s2(config)#','اختار البورت g0/1','interface g0/1'],['s2(config-if)#','شغّله','no shutdown'],['s2(config-if)#','خليه trunk','switchport mode trunk'],['s2(config-if)#','اخرج للـ privileged','end'],['s2#','احفظ','wr']];
+var RS2=[
+['Router>','ادخل وضع الـ privileged','enable'],['Router#','ادخل وضع الإعدادات','conf t'],['Router(config)#','سمّي الروتر r2','hostname r2'],['r2(config)#','اعمل باسورد 987','enable secret 987'],
+['r2(config)#','sub-interface لـ VLAN 30','interface g0/1.30'],['r2(config-subif)#','dot1Q للـ VLAN 30','encapsulation dot1Q 30'],['r2(config-subif)#','الـ gateway لـ VLAN 30','ip address 10.10.3.1 255.255.255.0'],['r2(config-subif)#','اخرج','exit'],
+['r2(config)#','sub-interface لـ VLAN 40','interface g0/1.40'],['r2(config-subif)#','dot1Q للـ VLAN 40','encapsulation dot1Q 40'],['r2(config-subif)#','الـ gateway لـ VLAN 40','ip address 10.10.4.1 255.255.255.0'],['r2(config-subif)#','اخرج','exit'],
+['r2(config)#','ادخل الإنترفيس الأساسي','interface g0/1'],['r2(config-if)#','شغّله','no shutdown'],['r2(config-if)#','اخرج','exit'],
+['r2(config)#','pool اسمه cs','ip dhcp pool cs'],['r2(dhcp-config)#','الشبكة','network 10.10.3.0 255.255.255.0'],['r2(dhcp-config)#','الـ gateway','default-router 10.10.3.1'],['r2(dhcp-config)#','الـ DNS','dns-server 8.8.8.8'],['r2(dhcp-config)#','اخرج','exit'],
+['r2(config)#','استبعد من 10.10.3.1 لـ 10.10.3.50','ip dhcp excluded-address 10.10.3.1 10.10.3.50'],
+['r2(config)#','pool اسمه sales','ip dhcp pool sales'],['r2(dhcp-config)#','الشبكة','network 10.10.4.0 255.255.255.0'],['r2(dhcp-config)#','الـ gateway','default-router 10.10.4.1'],['r2(dhcp-config)#','الـ DNS','dns-server 8.8.8.8'],['r2(dhcp-config)#','اخرج','exit'],
+['r2(config)#','استبعد من 10.10.4.1 لـ 10.10.4.100','ip dhcp excluded-address 10.10.4.1 10.10.4.100'],
+['r2(config)#','ادخل الـ Serial','interface s0/0/0'],['r2(config-if)#','شغّله','no shutdown'],['r2(config-if)#','حط الـ IP','ip address 192.168.1.2 255.255.255.0'],['r2(config-if)#','اخرج','exit'],
+['r2(config)#','route للشبكة 10.10.1.0','ip route 10.10.1.0 255.255.255.0 192.168.1.1'],['r2(config)#','route للشبكة 10.10.2.0','ip route 10.10.2.0 255.255.255.0 192.168.1.1'],['r2(config)#','ارجع للـ privileged','end'],['r2#','احفظ','wr']];
+var pn='<svg class="topo" viewBox="0 0 560 110" role="img" aria-label="واجهة السويتش"><rect x="10" y="15" width="540" height="80" rx="12" fill="var(--card)" stroke="var(--line)" stroke-width="2"/>';
+for(var k=1;k<=10;k++){var x=30+(k-1)*42;pn+='<rect x="'+x+'" y="32" width="30" height="26" rx="4" fill="'+(k<=5?'var(--acc)':'var(--acc2)')+'"/><text x="'+(x+15)+'" y="78">'+k+'</text>'}
+pn+='<rect x="480" y="32" width="50" height="26" rx="4" fill="var(--ok)"/><text x="505" y="78">g0/1</text></svg>';
+$('#panel').innerHTML=pn;
+lessons($('#swles'),SL);lessons($('#rtles'),RL);
+var D={s1:0,s2:0,r1:0,r2:0};
+try{var sv=JSON.parse(localStorage.getItem('nl_d')||'null');if(sv)D=sv}catch(e){}
+function syncP(){P.sw=!!(D.s1&&D.s2);P.rt=!!(D.r1&&D.r2);saveP();try{localStorage.setItem('nl_d',JSON.stringify(D))}catch(e){}}
+function chk(k,m){D[k]=1;syncP();refresh();alert(m)}
+syncP();
+lab($('#swlab'),SS,function(){chk('s1','🎉 خلّصت s1! كمّل s2.')},'✅ خلّصت s1. كمّل السويتش التاني s2.');
+lab($('#swlab2'),SS2,function(){chk('s2','🎉 خلّصت s2!')},'✅ خلّصت s2.');
+lab($('#rtlab'),RS,function(){chk('r1','🎉 خلّصت r1! كمّل r2.')},'✅ خلّصت r1. كمّل الروتر التاني r2.');
+lab($('#rtlab2'),RS2,function(){chk('r2','🎉 خلّصت r2! لما تخلّص الأربعة الامتحان يتفتح.')},'✅ خلّصت r2.');
+refresh();
+
+/*media-pure*/
+var VS=[
+{t:'ندخل وضع الإعدادات',l:['Switch>enable','Switch#conf t'],s:{}},
+{t:'نسمّي السويتش ونحط باسورد',l:['Switch(config)#hostname s1','s1(config)#enable secret 987'],s:{name:'s1',lock:1}},
+{t:'ننشئ الـ VLANs',l:['s1(config)#vlan 10','s1(config-vlan)#name hr','s1(config-vlan)#exit','s1(config)#vlan 20','s1(config-vlan)#name it','s1(config-vlan)#exit'],s:{v:1}},
+{t:'البورتات fa0/1-5 على VLAN 10 (access)',l:['s1(config)#interface range fa0/1-5','s1(config-if-range)#no shutdown','s1(config-if-range)#switchport mode access','s1(config-if-range)#switchport access vlan 10','s1(config-if-range)#exit'],s:{a:1}},
+{t:'البورتات fa0/6-10 على VLAN 20 (access)',l:['s1(config)#interface range fa0/6-10','s1(config-if-range)#no shutdown','s1(config-if-range)#switchport mode access','s1(config-if-range)#switchport access vlan 20','s1(config-if-range)#exit'],s:{b:1}},
+{t:'البورت g0/1 يبقى trunk ناحية الروتر',l:['s1(config)#interface g0/1','s1(config-if)#no shutdown','s1(config-if)#switchport mode trunk','s1(config-if)#end'],s:{tr:1}},
+{t:'نحفظ الإعدادات',l:['s1#wr','Building configuration...','[OK]'],s:{sv:1}}];
+function vstate(n){var s={name:'Switch'};for(var k=0;k<=n;k++)Object.assign(s,VS[k].s);return s}
+function pc(x,y,lab,sub,col,on){return '<rect x="'+x+'" y="'+y+'" width="52" height="30" rx="6" fill="var(--card)" stroke="'+(on?col:'var(--line)')+'" stroke-width="2"/><text x="'+(x+26)+'" y="'+(y+19)+'">'+lab+'</text><text x="'+(x+26)+'" y="'+(y+46)+'" style="font-size:10px;fill:'+(on?col:'var(--mute)')+'">'+sub+'</text>'}
+function dia(s){
+  var c1='var(--acc)',c2='var(--acc2)',h='<svg class="topo" viewBox="0 0 600 270" role="img" aria-label="Packet Tracer topology">';
+  var P=[[50,s.a,c1,'VLAN 10','1'],[150,s.a,c1,'VLAN 10','2'],[370,s.b,c2,'VLAN 20','6'],[470,s.b,c2,'VLAN 20','7']];
+  P.forEach(function(p,i){var on=!!p[1];h+='<line x1="'+(p[0]+26)+'" y1="190" x2="'+(270+i*20)+'" y2="110" '+(on?'class="l" style="stroke:'+p[2]+'"':'stroke="var(--line)" stroke-width="3" stroke-dasharray="5 5"')+'/>'+pc(p[0],190,'PC'+(i+1),on?p[3]:'-',p[2],on)+'<text x="'+(p[0]+26)+'" y="182" style="font-size:10px">Fa0/'+p[4]+'</text>'});
+  h+='<line x1="360" y1="90" x2="490" y2="90" '+(s.tr?'class="l" style="stroke:var(--ok)"':'stroke="var(--line)" stroke-width="3" stroke-dasharray="5 5"')+'/>';
+  h+='<circle cx="520" cy="90" r="28" fill="var(--card)" stroke="var(--acc2)" stroke-width="2"/><text x="520" y="95">R1</text>';
+  if(s.tr)h+='<text x="425" y="78" style="font-size:11px;fill:var(--ok)">trunk g0/1</text>';
+  h+='<rect x="240" y="70" width="120" height="40" rx="8" fill="var(--card)" stroke="var(--acc)" stroke-width="2.5"/><text x="300" y="95">'+(s.lock?'🔒 ':'')+s.name+'</text>';
+  if(s.v)h+='<rect x="236" y="22" width="64" height="24" rx="12" fill="var(--acc)"/><text x="268" y="38" style="fill:#fff;font-size:11px">V10 hr</text><rect x="306" y="22" width="64" height="24" rx="12" fill="var(--acc2)"/><text x="338" y="38" style="fill:#fff;font-size:11px">V20 it</text>';
+  if(s.sv)h+='<text x="300" y="262" style="fill:var(--ok);font-size:15px">✓ Saved (startup-config)</text>';
+  return h+'</svg>';
+}
+function net(){
+  var h='<svg class="topo" viewBox="0 0 640 240" role="img" aria-label="Full network"><g stroke-width="3" fill="none"><line x1="170" y1="100" x2="228" y2="100" stroke="var(--ok)"/><line x1="272" y1="100" x2="368" y2="100" stroke="var(--acc2)" stroke-dasharray="6 6"/><line x1="412" y1="100" x2="470" y2="100" stroke="var(--ok)"/></g>';
+  [[90,'var(--acc)','V10',140],[150,'var(--acc2)','V20',140],[450,'#a06cff','V40',500],[510,'#2fbf9b','V30',500]].forEach(function(p,i){h+='<line x1="'+(p[0]+22)+'" y1="170" x2="'+p[3]+'" y2="120" stroke="'+p[1]+'" stroke-width="3"/><rect x="'+p[0]+'" y="170" width="44" height="28" rx="6" fill="var(--card)" stroke="'+p[1]+'" stroke-width="2"/><text x="'+(p[0]+22)+'" y="189" style="font-size:11px">PC</text><text x="'+(p[0]+22)+'" y="216" style="font-size:10px;fill:'+p[1]+'">'+p[2]+'</text>'});
+  h+='<rect x="110" y="80" width="60" height="40" rx="8" fill="var(--card)" stroke="var(--acc)" stroke-width="2.5"/><text x="140" y="105">S1</text><circle cx="250" cy="100" r="22" fill="var(--card)" stroke="var(--acc2)" stroke-width="2"/><text x="250" y="105">R1</text><circle cx="390" cy="100" r="22" fill="var(--card)" stroke="var(--acc2)" stroke-width="2"/><text x="390" y="105">R2</text><rect x="470" y="80" width="60" height="40" rx="8" fill="var(--card)" stroke="var(--acc)" stroke-width="2.5"/><text x="500" y="105">S2</text>';
+  h+='<text x="320" y="82" style="font-size:11px">192.168.1.0/24</text><text x="199" y="88" style="font-size:10px;fill:var(--ok)">trunk</text><text x="441" y="88" style="font-size:10px;fill:var(--ok)">trunk</text>';
+  return h+'</svg>';
+}
+/*media-end*/
+var reduce=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
+var vi=0,vt=null,playing=false;
+function vshow(n){
+  clearTimeout(vt);vi=(n+VS.length)%VS.length;var sc=VS[vi];
+  $('#vdia').innerHTML=dia(vstate(vi));$('#vcap').textContent=(vi+1)+' / '+VS.length+': '+sc.t;
+  $('#vbar').style.width=((vi+1)/VS.length*100)+'%';
+  var term=$('#vterm');term.textContent='';var li=0,ci=0,cur=null;
+  function type(){
+    if(li>=sc.l.length){if(playing)vt=setTimeout(function(){vshow(vi+1)},2200);return}
+    if(ci===0){cur=document.createElement('div');term.appendChild(cur)}
+    var L=sc.l[li];
+    if(reduce){cur.textContent=L;li++;ci=0;type();return}
+    ci++;cur.textContent=L.slice(0,ci);term.scrollTop=term.scrollHeight;
+    if(ci>=L.length){li++;ci=0;vt=setTimeout(type,450)}else vt=setTimeout(type,35);
+  }
+  type();
+}
+$('#vplay').addEventListener('click',function(){playing=!playing;this.textContent=playing?'⏸':'▶';if(playing)vshow(vi)});
+$('#vprev').addEventListener('click',function(){vshow(vi-1)});
+$('#vnext').addEventListener('click',function(){vshow(vi+1)});
+$('#img1').innerHTML=dia({name:'s1',lock:1,v:1,a:1,b:1,tr:1,sv:1});$('#img2').innerHTML=net();
+vshow(0);
+
+/* exam */
+function tm(a){return {test:function(v){return ab(v)===ab(a)}}}
+var R=[
+['إيه معنى Switch> في بداية السطر؟','وضع المستخدم (صلاحيات محدودة)','وضع الإعدادات العامة','وضع إعدادات الـ VLAN','وضع الـ Trunk'],
+['الأمر اللي بينقلك من Switch> إلى Switch# هو:','enable','conf t','exit','wr'],
+['الأمر اللي بيدخّلك وضع الإعدادات العامة هو:','conf t','enable','end','no shutdown'],
+['الأمر hostname s1 بيعمل إيه؟','يغيّر اسم الجهاز إلى s1','يعمل باسورد','ينشئ VLAN','يشغّل بورت'],
+['الأمر enable secret 987 بيعمل إيه؟','يضع باسورد مشفّر لوضع enable','يغيّر اسم الجهاز','ينشئ VLAN رقم 987','يحفظ الإعدادات'],
+['البورت fa0/1 معناه:','FastEthernet موديول 0 بورت 1','GigabitEthernet بورت 1','VLAN رقم 1','Serial رقم 1'],
+['البورت g0/1 معناه:','GigabitEthernet موديول 0 بورت 1','FastEthernet بورت 1','Sub-interface','VLAN 1'],
+['الأمر interface range fa0/1-5 بيختار:','البورتات من 1 إلى 5 مرة واحدة','بورت واحد فقط','5 VLANs','كل بورتات السويتش'],
+['الأمر no shutdown بيعمل إيه؟','يشغّل البورت','يطفّي البورت','يحذف VLAN','يحفظ الإعدادات'],
+['الأمر vlan 10 بيعمل إيه؟','ينشئ VLAN رقم 10','يفتح البورت 10','يضيف IP','يحوّل البورت لـ trunk'],
+['الأمر name hr داخل الـ VLAN بيعمل إيه؟','يسمّي الـ VLAN باسم hr','يغيّر hostname','يضع باسورد','يحفظ الإعدادات'],
+['الأمر switchport mode access معناه إن البورت:','متصل بجهاز طرفي ويخدم VLAN واحدة','يمرّر كل الـ VLANs','مطفي','عليه IP'],
+['الأمر switchport access vlan 10 بيعمل إيه؟','يضم البورت إلى VLAN 10','ينشئ VLAN 10','يغيّر الاسم','يحوّله trunk'],
+['البورت الواصل بين السويتش والروتر يكون:','trunk','access','shutdown','dhcp'],
+['الأمر المختصر لحفظ الإعدادات:','wr','end','exit','no shutdown'],
+['فكرة Router-on-a-Stick بتعتمد على:','Sub-interfaces على إنترفيس واحد','كابل منفصل لكل VLAN','سويتش بدون VLAN','روتر بدون IP'],
+['الأمر encapsulation dot1Q 10 بيعمل إيه؟','يربط الـ sub-interface بـ VLAN 10','ينشئ DHCP pool','يضيف static route','يشغّل البورت'],
+['الـ IP 10.10.1.1 على g0/1.10 هو:','الـ Gateway لـ VLAN 10','الـ DNS','الـ next hop','اسم الجهاز'],
+['الأمر ip dhcp pool hr بيعمل إيه؟','ينشئ pool اسمه hr','ينشئ VLAN','يحفظ الإعدادات','يحوّل البورت trunk'],
+['الأمر ip dhcp excluded-address بيعمل إيه؟','يستبعد عناوين من التوزيع التلقائي','يضيف route','يغيّر الـ mask','يفتح البورت'],
+['الأمر ip route 10.10.3.0 255.255.255.0 192.168.1.2 معناه:','الشبكة 10.10.3.0 نوصلها عن طريق next hop 192.168.1.2','ننشئ DHCP pool','ننشئ VLAN 3','نغيّر عنوان الروتر'],
+['الأمر clock rate 64000 بيتكتب على:','الروتر اللي طرفه DCE في وصلة الـ serial','أي PC','أي سويتش','الـ sub-interface']];
+var Q=R.map(function(r){return [r[0],r.slice(1),0]});
+var T=[
+['اكتب أمر تحويل البورت إلى وضع access:','switchport mode access',tm('switchport mode access')],
+['اكتب أمر تحديد الـ VLAN رقم 20 على الـ sub-interface:','encapsulation dot1Q 20',tm('encapsulation dot1Q 20')],
+['اكتب أمر إنشاء VLAN رقم 20:','vlan 20',tm('vlan 20')]];
+var TS=[
+['السويتش العادي (مثل 2960) يعمل في أي طبقة من OSI؟','الطبقة 2 (Data Link)','الطبقة 1','الطبقة 3','الطبقة 7'],
+['السويتش يتعلّم ويخزّن في جدوله عناوين:','MAC','IP','DNS','VLAN'],
+['الفرق بين السويتش والهَب:','السويتش يرسل الإطار للبورت المقصود فقط','السويتش يرسل لكل البورتات دائماً','الهَب أذكى من السويتش','لا فرق'],
+['الـ VLAN تقسّم الشبكة إلى:','Broadcast domains منفصلة','كابلات منفصلة','روترات','ملفات'],
+['الـ VLAN الافتراضية في سويتش سيسكو:','VLAN 1','VLAN 10','VLAN 100','VLAN 0'],
+['بورت access يخدم:','VLAN واحدة','كل الـ VLANs','لا شيء','الروتر فقط'],
+['بورت trunk يمرّر:','ترافيك أكتر من VLAN','VLAN واحدة فقط','الصوت فقط','لا شيء'],
+['بروتوكول وسم الـ VLAN على الـ trunk:','IEEE 802.1Q','IEEE 802.3','IEEE 802.11','PPP'],
+['الأمر المختصر لعرض الـ VLANs:','show vlan brief','show ip route','show clock','show arp'],
+['الأمر لعرض الإعدادات الحالية:','show running-config','show flash','show version only','show vlan ports'],
+['لو ما حفظنا الإعدادات (wr) فبعد إعادة التشغيل:','الإعدادات تضيع','الإعدادات تتحفظ تلقائياً','السويتش يتحول لروتر','الـ VLANs تتضاعف'],
+['جهاز في VLAN 10 وجهاز في VLAN 20 على نفس السويتش:','لا يتواصلان إلا عبر جهاز طبقة 3','يتواصلان مباشرة','يتواصلان بالـ MAC فقط','يتواصلان دائماً'],
+['enable secret أفضل من enable password لأن:','الباسورد مشفّر في الـ config','أسرع','أقصر','يمنع الـ VLAN'],
+['فايدة interface range:','تطبيق نفس الإعداد على عدة بورتات','تغيير اسم الجهاز','حذف الـ VLAN','عمل ping'],
+['لو أنشأنا VLAN ولم نضم لها بورتات:','تظل موجودة بدون أعضاء','تتحذف','تعمل تلقائياً','يتوقف السويتش']];
+var TR=[
+['الروتر يعمل في أي طبقة؟','الطبقة 3 (Network)','الطبقة 2','الطبقة 1','الطبقة 7'],
+['الروتر يوجّه الحزم اعتماداً على:','عنوان IP الوجهة','MAC فقط','رقم البورت فقط','اسم الجهاز'],
+['جدول الـ routing يحتوي على:','الشبكات ومسارات الوصول لها','عناوين MAC','الباسوردات','أسماء الـ VLANs'],
+['الـ Default Gateway للجهاز هو:','عنوان الروتر على شبكته المحلية','عنوان الـ DNS','الـ MAC','رقم الـ VLAN'],
+['معنى Inter-VLAN routing:','ربط VLANs مختلفة عبر روتر أو جهاز طبقة 3','حذف VLAN','ربط سويتشين','تشفير الشبكة'],
+['Router-on-a-Stick يعني:','إنترفيس واحد مقسّم لـ sub-interfaces','روتر لكل VLAN','سويتش بدون trunk','كابل لكل VLAN'],
+['الـ Static route هو:','مسار يكتبه المسؤول يدوياً','مسار يتعلمه الروتر تلقائياً','بديل الـ DHCP','يعتمد على الـ MAC'],
+['الـ Next hop هو:','عنوان الروتر التالي في المسار','عنوان الجهاز المصدر','اسم الشبكة','الـ mask'],
+['الـ subnet mask 255.255.255.0 يعني:','24 بت للشبكة','8 بت للشبكة','16 بت للشبكة','32 بت للشبكة'],
+['الـ DHCP وظيفته:','توزيع عناوين IP والإعدادات تلقائياً','توزيع الـ MAC','إنشاء VLANs','تشفير الباسورد'],
+['الـ excluded-address في DHCP يُستخدم لـ:','حجز عناوين لا تُوزَّع (مثل الـ gateway)','إنشاء VLAN','إضافة route','فتح البورت'],
+['الـ DNS وظيفته:','ترجمة الأسماء إلى عناوين IP','توزيع IP','توجيه الحزم','تشفير'],
+['في وصلة serial، طرف DCE هو الذي:','يحدد الـ clock rate','يستقبل فقط','هو السويتش','هو الـ PC'],
+['الأمر show ip route يعرض:','جدول التوجيه','جدول الـ MAC','الـ VLANs','الباسوردات'],
+['نكتب no shutdown على إنترفيس الروتر لأن:','الإنترفيس مطفي افتراضياً','لحفظ الإعدادات','لتغيير الـ IP','لتحديد الـ VLAN']];
+function mk(r){return r.map(function(x){return [x[0],x.slice(1),0]})}
+var EX={prac:{Q:Q,T:T},sw:{Q:mk(TS),T:[]},rt:{Q:mk(TR),T:[]}};
+var cur='prac',db=null,uid=null,last=null;
+var box=$('#qs');
+function fm(s){return s&&typeof s.score==='number'?s.score+' / '+s.total:'-'}
+function exView(){
+  if(!EX)return;
+  var locked=cur==='prac'&&!(P.sw&&P.rt);
+  $('#xlock').hidden=!locked;$('#exbody').hidden=locked;
+  document.querySelectorAll('#exsel button').forEach(function(b){b.classList.toggle('pri',b.dataset.x===cur)});
+}
+function build(){
+  var E=EX[cur];box.textContent='';$('#res').textContent='';$('#submit').disabled=false;
+  E.Q.forEach(function(q,n){
+    var d=document.createElement('div');d.className='card q';d.id='q'+n;
+    var b=document.createElement('b');b.textContent=(n+1)+') '+q[0];d.appendChild(b);
+    [0,1,2,3].map(function(j){return (j+n%4)%4}).forEach(function(oi){var l=document.createElement('label');var r=document.createElement('input');r.type='radio';r.name='q'+n;r.value=oi;l.appendChild(r);l.appendChild(document.createTextNode(' '+q[1][oi]));d.appendChild(l)});
+    var f=document.createElement('div');f.className='fb';d.appendChild(f);box.appendChild(d)});
+  E.T.forEach(function(t,n){
+    var d=document.createElement('div');d.className='card q';d.id='t'+n;
+    var b=document.createElement('b');b.textContent=(E.Q.length+n+1)+') '+t[0];d.appendChild(b);
+    var inp=document.createElement('input');inp.type='text';inp.className='mono';inp.style.width='100%';inp.autocomplete='off';inp.setAttribute('autocapitalize','off');inp.setAttribute('aria-label',t[0]);inp.id='ti'+n;d.appendChild(inp);
+    var f=document.createElement('div');f.className='fb';d.appendChild(f);box.appendChild(d)});
+}
+$('#exsel').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;cur=b.dataset.x;build();exView()});
+function grade(){
+  var E=EX[cur],score=0,ans=[];
+  E.Q.forEach(function(q,n){
+    var c=document.querySelector('input[name=q'+n+']:checked'),d=$('#q'+n),f=d.querySelector('.fb');
+    var ok=c&&Number(c.value)===q[2];ans.push(c?q[1][Number(c.value)]:'');if(ok)score++;
+    d.className='card q '+(ok?'right':'wrong');f.className='fb '+(ok?'ok':'bad');
+    f.textContent=ok?'إجابة صحيحة ✓':'الإجابة الصحيحة: '+q[1][q[2]]});
+  E.T.forEach(function(t,n){
+    var v=$('#ti'+n).value,d=$('#t'+n),f=d.querySelector('.fb'),ok=t[2].test(v);ans.push(v.trim());if(ok)score++;
+    d.className='card q '+(ok?'right':'wrong');f.className='fb '+(ok?'ok':'bad');
+    f.textContent=ok?'إجابة صحيحة ✓':'الإجابة الصحيحة: '+t[1]});
+  return {score:score,ans:ans,total:E.Q.length+E.T.length};
+}
+function setRes(msg,cls,extra){var r=$('#res');r.textContent='';var s=document.createElement('div');s.className=cls||'';s.textContent=msg;r.appendChild(s);if(extra)r.appendChild(extra)}
+$('#submit').addEventListener('click',async function(){
+  var name=$('#sname').value.trim();
+  if(name.length<3){setRes('اكتب اسمك الأول (3 حروف على الأقل).','bad');$('#sname').focus();return}
+  var E=EX[cur];
+  var unanswered=E.Q.some(function(q,n){return !document.querySelector('input[name=q'+n+']:checked')});
+  if(unanswered&&!confirm('فيه أسئلة من غير إجابة. تسلّم برضه؟'))return;
+  var g=grade();var key=cur;
+  last={name:name,score:g.score,total:g.total,answers:g.ans,at:Date.now()};
+  $('#submit').disabled=true;
+  var sc=document.createElement('div');sc.className='score';sc.textContent=g.score+' / '+g.total;
+  setRes('جاري إرسال النتيجة للمستر...','',sc);
+  try{
+    if(!db||!uid)throw new Error('nodb');
+    var ref=db.collection('submissions').doc(uid),data={name:name,at:last.at};
+    data['ex_'+key]={score:g.score,total:g.total,answers:g.ans,at:last.at};
+    try{await ref.update(data)}catch(e1){await ref.set(data)}
+    setRes('✅ تم إرسال امتحانك للمستر بنجاح. درجتك:','ok',sc);
+  }catch(e){
+    var b=document.createElement('button');b.className='btn';b.textContent='حمّل ملف النتيجة وابعته للمستر';
+    b.addEventListener('click',async function(){try{var dl=await claude.use('downloads');if(!dl)throw 0;await dl.save({filename:'exam-result.txt',data:'الاسم: '+last.name+'\nالدرجة: '+last.score+'/'+last.total+'\n'+last.answers.map(function(a,i){return (i+1)+') '+a}).join('\n')})}catch(x){alert('تعذّر الحفظ. صوّر الشاشة وابعتها للمستر.')}});
+    var w=document.createElement('div');w.appendChild(sc);w.appendChild(b);
+    setRes('⚠️ تعذّر الإرسال التلقائي (لازم تفتح الرابط وانت مسجّل دخول). درجتك:','bad',w);
+    $('#submit').disabled=false;
+  }
+  window.scrollTo(0,document.body.scrollHeight);
+});
+build();exView();
+
+/* teacher */
+function listen(){
+  db.collection('submissions').onSnapshot(function(snap){
+    var tb=$('#rows');tb.textContent='';
+    var docs=snap.docs.slice().sort(function(a,b){return (b.data().at||0)-(a.data().at||0)});
+    docs.forEach(function(d){var x=d.data();if(!x)return;var tr=document.createElement('tr');
+      [String(x.name||''),fm(x.ex_prac),fm(x.ex_sw),fm(x.ex_rt),new Date(x.at||0).toLocaleString('ar-EG')].forEach(function(t){var td=document.createElement('td');td.textContent=t;tr.appendChild(td)});tb.appendChild(tr)});
+    $('#tnote').hidden=docs.length>0;
+  },function(){$('#tnote').textContent='تعذّر تحميل التسليمات.'});
+}
+(async function init(){
+  try{
+    var d=await claude.use('db'),u=await claude.use('user');
+    if(d&&u){db=d;uid=await u.id();
+      var can=false;try{can=(await u.canEdit())||(await u.isOwner())}catch(e){}
+      if(can){$('#tbtn').hidden=false;listen()}}
+  }catch(e){}
+})();
+})();
+</script>
+</body>
+</html>
